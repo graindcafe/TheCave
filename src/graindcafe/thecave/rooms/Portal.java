@@ -1,7 +1,7 @@
 package graindcafe.thecave.rooms;
 
-import graindcafe.thecaves.creatures.Creature;
-import graindcafe.thecaves.plugin.TheCave;
+import graindcafe.thecave.creatures.Creature;
+import graindcafe.thecave.plugin.TheCave;
 
 import java.util.ArrayList;
 import java.util.Collection;

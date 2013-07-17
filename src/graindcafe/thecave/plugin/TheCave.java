@@ -1,4 +1,4 @@
-package graindcafe.thecaves.plugin;
+package graindcafe.thecave.plugin;
 
 import graindcafe.thecave.commands.DebugController;
 

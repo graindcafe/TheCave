@@ -1,8 +1,8 @@
 package graindcafe.thecave.commands;
 
+import graindcafe.thecave.plugin.Dungeon;
+import graindcafe.thecave.plugin.TheCave;
 import graindcafe.thecave.rooms.Portal;
-import graindcafe.thecaves.plugin.Dungeon;
-import graindcafe.thecaves.plugin.TheCave;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

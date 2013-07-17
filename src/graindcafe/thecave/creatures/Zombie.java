@@ -1,4 +1,4 @@
-package graindcafe.thecaves.creatures;
+package graindcafe.thecave.creatures;
 
 import org.bukkit.entity.Entity;
 

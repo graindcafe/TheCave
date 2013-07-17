@@ -1,8 +1,8 @@
-package graindcafe.thecaves.plugin;
+package graindcafe.thecave.plugin;
 
+import graindcafe.thecave.creatures.Creature;
 import graindcafe.thecave.rooms.Portal;
 import graindcafe.thecave.rooms.Room;
-import graindcafe.thecaves.creatures.Creature;
 
 import java.util.Collection;
 import java.util.HashMap;
