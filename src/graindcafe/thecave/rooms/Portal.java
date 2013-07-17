@@ -1,35 +1,32 @@
 package graindcafe.thecave.rooms;
 
 import graindcafe.thecaves.creatures.Creature;
-import graindcafe.thecaves.creatures.Zombie;
-import graindcafe.thecaves.plugin.Dungeon;
+import graindcafe.thecaves.plugin.TheCave;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class Portal extends Room {
-	Dungeon dungeon;
-	Location loc;
 	Integer livingSoul;
 	final static int maxLivingSoul = 10;
-	static final ArrayList<Class<? extends Creature>> possibleCreatures = new ArrayList<Class<? extends Creature>>() {
-		private static final long serialVersionUID = 1L;
-		{
-			add(Zombie.class);
-		}
-	};
+	TheCave plugin;
 
-	public Portal(Location loc) {
+	public Portal(TheCave plugin, Location loc) {
 		this.loc = loc;
+		this.plugin = plugin;
+		Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, 100,
+				10000);
 	}
 
 	public void run() {
 		List<Class<? extends Creature>> possibles = new ArrayList<Class<? extends Creature>>();
-		possibles.addAll(possibleCreatures);
+
+		possibles.addAll(dungeon.getPossibleCreatures());
 		Iterator<Class<? extends Creature>> it = possibles.iterator();
 		while (it.hasNext()) {
 			Class<? extends Creature> c = it.next();
@@ -49,7 +46,6 @@ public class Portal extends Room {
 					if (rm.canHost(c)) {
 						satisfyAny = true;
 					}
-
 				}
 				if (!satisfyAny)
 					it.remove();
@@ -58,11 +54,6 @@ public class Portal extends Room {
 		Creature.spawn(
 				possibles.get(dungeon.getRandom().nextInt(possibles.size())),
 				loc);
-	}
-
-	@Override
-	public Integer getMaxOf(Class<? extends Creature> c) {
-		return null;
 	}
 
 	@Override
