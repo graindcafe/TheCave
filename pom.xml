@@ -7,9 +7,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>graindcafe</groupId>
-			<artifactId>gls</artifactId>
+			<artifactId>GLS</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
@@ -36,7 +37,7 @@
 			<url>https://raw.github.com/graindcafe/GLS/mvn-repo/</url>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
+				<!-- <updatePolicy>always</updatePolicy> -->
 			</snapshots>
 		</repository>
 	</repositories>
@@ -78,28 +79,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>1.4</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<relocations>
-								<relocation>
-									<pattern>net.minecraft.server</pattern>
-									<shadedPattern>net.minecraft.server.v${minecraft_version}</shadedPattern>
-								</relocation>
-							</relocations>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
@@ -114,7 +93,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Implementation-Title>Tribu</Implementation-Title>
+							<Implementation-Title>TheCave</Implementation-Title>
 							<Implementation-Version>${describe}</Implementation-Version>
 							<Implementation-Vendor>Graindcafe</Implementation-Vendor>
 							<Sealed>true</Sealed>
@@ -127,7 +106,7 @@
 								</manifestEntries>
 							</manifestSection>
 							<manifestSection>
-								<name>graindcafe/tribu/</name>
+								<name>graindcafe/thecave/</name>
 								<manifestEntries>
 									<Sealed>true</Sealed>
 								</manifestEntries>
