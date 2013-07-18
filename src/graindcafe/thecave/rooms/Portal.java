@@ -16,19 +16,50 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Portal.
+ */
 public class Portal extends Room {
+
+	/** The living soul. */
 	Integer livingSoul = 0;
+
+	/** The max Living Souls. */
 	final static int maxLivingSoul = 10;
 
+	/**
+	 * Instantiates a new portal.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 * @param p
+	 *            the player
+	 */
 	public Portal(TheCave plugin, Player p) {
 		this(plugin, plugin.getDungeon(p), p.getLocation());
 	}
 
+	/**
+	 * Instantiates a new portal.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 * @param dungeon
+	 *            the dungeon
+	 * @param loc
+	 *            the loc
+	 */
 	public Portal(TheCave plugin, Dungeon dungeon, Location loc) {
 		super(plugin, dungeon, loc);
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 100, 200);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		Map<Class<? extends Creature>, List<Room>> possibles = new HashMap<Class<? extends Creature>, List<Room>>();
 
@@ -41,7 +72,7 @@ public class Portal extends Room {
 		while (it.hasNext()) {
 			Class<? extends Creature> c = it.next();
 			Collection<Class<? extends Room>> rRooms = Creature
-					.getRequieredRooms(c);
+					.getRequiredRooms(c);
 			if (rRooms != null)
 				for (Class<? extends Room> r : rRooms)
 					if (!dungeon.hasRoom(r)) {
@@ -81,16 +112,34 @@ public class Portal extends Room {
 		// host(Creature) callback
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see graindcafe.thecave.rooms.Room#canHost(java.lang.Class)
+	 */
 	@Override
 	public boolean canHost(Class<? extends Creature> c) {
 		return livingSoul < maxLivingSoul;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * graindcafe.thecave.rooms.Room#host(graindcafe.thecave.creatures.Creature)
+	 */
 	@Override
 	public void host(Creature c) {
 		livingSoul++;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * graindcafe.thecave.rooms.Room#unhost(graindcafe.thecave.creatures.Creature
+	 * )
+	 */
 	@Override
 	public void unhost(Creature c) {
 		livingSoul--;

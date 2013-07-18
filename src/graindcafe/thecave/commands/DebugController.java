@@ -12,13 +12,32 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DebugController.
+ */
 public class DebugController implements CommandExecutor {
+
+	/** The plugin. */
 	TheCave plugin;
 
+	/**
+	 * Instantiates a new debug controller.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 */
 	public DebugController(TheCave plugin) {
 		this.plugin = plugin;
 	}
 
+	/**
+	 * Usage.
+	 * 
+	 * @param sender
+	 *            the sender
+	 * @return true, if successful
+	 */
 	public boolean usage(CommandSender sender) {
 		// Display a specific usage for op
 		if (sender.isOp()) {
@@ -29,6 +48,13 @@ public class DebugController implements CommandExecutor {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.bukkit.command.CommandExecutor#onCommand(org.bukkit.command.CommandSender
+	 * , org.bukkit.command.Command, java.lang.String, java.lang.String[])
+	 */
 	public boolean onCommand(final CommandSender sender, final Command command,
 			final String label, final String[] args) {
 		if (args.length == 0)

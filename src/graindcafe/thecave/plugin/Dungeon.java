@@ -21,22 +21,41 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Dungeon.
+ */
 public class Dungeon implements Listener {
 
-	List<Player> registredPlayers = new LinkedList<Player>();
+	/** The registered players. */
+	List<Player> registeredPlayers = new LinkedList<Player>();
 	/*
 	 * The keys are the set of available creatures When a creature is newly
 	 * available the value is set to 0
 	 */
+	/** The creatures. */
 	Map<Class<? extends Creature>, List<Creature>> creatures = new HashMap<Class<? extends Creature>, List<Creature>>();
+
+	/** The bukkit association. */
 	Map<Entity, Creature> bukkitAssociation = new HashMap<Entity, Creature>();
 	/*
 	 * The keys are the set of available rooms
 	 */
+	/** The rooms. */
 	Map<Class<? extends Room>, List<Room>> rooms = new HashMap<Class<? extends Room>, List<Room>>();
+
+	/** A new random. */
 	Random rand = new Random();
+
+	/** The plugin. */
 	TheCave plugin;
 
+	/**
+	 * Instantiates a new dungeon.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 */
 	private Dungeon(TheCave plugin) {
 		this.plugin = plugin;
 		/*
@@ -47,66 +66,157 @@ public class Dungeon implements Listener {
 		registerCreature(Zombie.class);
 	}
 
+	/**
+	 * Instantiates a new dungeon.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 * @param owner
+	 *            the owner
+	 */
 	public Dungeon(TheCave plugin, Player owner) {
 		this(plugin);
 		addPlayer(owner);
 		plugin.registerDungeon(owner, this);
 	}
 
+	/**
+	 * Instantiates a new dungeon.
+	 * 
+	 * @param plugin
+	 *            the plugin
+	 * @param playerName
+	 *            the player name
+	 */
 	public Dungeon(TheCave plugin, String playerName) {
 		this(plugin, Bukkit.getPlayer(playerName));
 	}
 
+	/**
+	 * Gets the rooms.
+	 * 
+	 * @return the rooms
+	 */
 	public Collection<List<Room>> getRooms() {
 		return rooms.values();
 	}
 
+	/**
+	 * Register creature.
+	 * 
+	 * @param c
+	 *            the c
+	 */
 	public void registerCreature(Class<? extends Creature> c) {
 		creatures.put(c, new LinkedList<Creature>());
 	}
 
+	/**
+	 * Register room.
+	 * 
+	 * @param c
+	 *            the c
+	 */
 	public void registerRoom(Class<? extends Room> c) {
 		rooms.put(c, new LinkedList<Room>());
 	}
 
+	/**
+	 * Adds the player.
+	 * 
+	 * @param p
+	 *            the p
+	 */
 	public void addPlayer(Player p) {
-		registredPlayers.add(p);
+		registeredPlayers.add(p);
 	}
 
+	/**
+	 * Adds the creature.
+	 * 
+	 * @param c
+	 *            the creature
+	 */
 	public void addCreature(Creature c) {
 		bukkitAssociation.put(c.getEntity(), c);
 		creatures.get(c.getClass()).add(c);
 	}
 
+	/**
+	 * Adds the room.
+	 * 
+	 * @param r
+	 *            the room
+	 */
 	public void addRoom(Room r) {
 		List<Room> similarRooms = this.rooms.get(r.getClass());
 		similarRooms.add(r);
 	}
 
+	/**
+	 * Gets the creatures.
+	 * 
+	 * @return the creatures
+	 */
 	public Collection<List<Creature>> getCreatures() {
 		return creatures.values();
 	}
 
+	/**
+	 * Checks for room.
+	 * 
+	 * @param room
+	 *            the room
+	 * @return true, if successful
+	 */
 	public boolean hasRoom(Class<? extends Room> room) {
 		return rooms.keySet().contains(room);
 	}
 
+	/**
+	 * Number of.
+	 * 
+	 * @param creature
+	 *            the creature
+	 * @return the int
+	 */
 	public int numberOf(Class<? extends Creature> creature) {
 		return creatures.get(creature).size();
 	}
 
+	/**
+	 * Gets the random.
+	 * 
+	 * @return the random
+	 */
 	public Random getRandom() {
 		return rand;
 	}
 
+	/**
+	 * Gets the managed entities.
+	 * 
+	 * @return the managed entities
+	 */
 	public Set<Entity> getManagedEntities() {
 		return bukkitAssociation.keySet();
 	}
 
+	/**
+	 * Gets the possible creatures.
+	 * 
+	 * @return the possible creatures
+	 */
 	public Collection<? extends Class<? extends Creature>> getPossibleCreatures() {
 		return creatures.keySet();
 	}
 
+	/**
+	 * On entity death.
+	 * 
+	 * @param event
+	 *            the event
+	 */
 	@EventHandler
 	public void onEntityDeath(final EntityDeathEvent event) {
 		Creature c = bukkitAssociation.get(event.getEntity());
@@ -114,11 +224,16 @@ public class Dungeon implements Listener {
 			c.died();
 	}
 
+	/**
+	 * Stat.
+	 * 
+	 * @return the string
+	 */
 	public String stat() {
 		String plist = "";
 		String clist = "";
 		String rlist = "";
-		for (Player p : registredPlayers)
+		for (Player p : registeredPlayers)
 			plist += p.getName() + ", ";
 		plist = plist.substring(0, plist.length() - 1);
 		for (Entry<Class<? extends Creature>, List<Creature>> e : creatures
