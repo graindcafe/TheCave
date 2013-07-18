@@ -26,9 +26,7 @@ public class Portal extends Room {
 
 	public Portal(TheCave plugin, Dungeon dungeon, Location loc) {
 		super(plugin, dungeon, loc);
-
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 100,
-				10000);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 100, 200);
 	}
 
 	public void run() {
@@ -73,10 +71,12 @@ public class Portal extends Room {
 			}
 		}
 		it2 = possibles.entrySet().iterator();
-		for (int i = dungeon.getRandom().nextInt(possibles.size()); i > 0; i--)
+		for (int i = dungeon.getRandom().nextInt(possibles.size() + 1); i > 0; i--)
 			it2.next();
 		Entry<Class<? extends Creature>, List<Room>> chosen = it2.next();
-		Creature.spawn(chosen.getKey(), chosen.getValue(), loc);
+		Creature.spawn(chosen.getKey(), chosen.getValue(), loc, dungeon);
+		// do not increase livingSoul here as it would be done with the
+		// host(Creature) callback
 	}
 
 	@Override
@@ -87,6 +87,11 @@ public class Portal extends Room {
 	@Override
 	public void host(Creature c) {
 		livingSoul++;
+	}
+
+	@Override
+	public void unhost(Creature c) {
+		livingSoul--;
 	}
 
 }

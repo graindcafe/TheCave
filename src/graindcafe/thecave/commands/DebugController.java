@@ -4,9 +4,12 @@ import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
 import graindcafe.thecave.rooms.Portal;
 
+import java.util.List;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class DebugController implements CommandExecutor {
@@ -32,7 +35,7 @@ public class DebugController implements CommandExecutor {
 			return usage(sender);
 		args[0] = args[0].toLowerCase();
 
-		if (args[0].equalsIgnoreCase("create") && args.length > 1)
+		if (args[0].equalsIgnoreCase("create") && args.length > 1) {
 			if (args[1].equalsIgnoreCase("dungeon")) {
 				if (sender instanceof Player) {
 					new Dungeon(plugin, (Player) sender);
@@ -48,7 +51,30 @@ public class DebugController implements CommandExecutor {
 						new Portal(plugin, ((Player) sender)));
 				return true;
 			}
-
+		} else if (args[0].equalsIgnoreCase("kill") && args.length > 1) {
+			if (args[1].equalsIgnoreCase("other")) {
+				List<Entity> all = ((Player) sender).getWorld().getEntities();
+				all.removeAll(plugin.getDungeon(((Player) sender))
+						.getManagedEntities());
+				for (Entity e : all)
+					e.remove();
+				return true;
+			} else if (args[1].equalsIgnoreCase("dungeon")) {
+				for (Entity e : plugin.getDungeon(((Player) sender))
+						.getManagedEntities())
+					e.remove();
+				return true;
+			} else if (args[1].equalsIgnoreCase("all")) {
+				for (Entity e : ((Player) sender).getWorld().getEntities())
+					e.remove();
+				return true;
+			}
+		} else if (args[0].equalsIgnoreCase("dungeon") && args.length > 1) {
+			if (args[1].equalsIgnoreCase("stat")) {
+				sender.sendMessage(plugin.getDungeon(((Player) sender)).stat());
+				return true;
+			}
+		}
 		return false;
 	}
 }

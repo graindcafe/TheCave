@@ -31,6 +31,8 @@ public class TheCave extends JavaPlugin {
 			private static final long serialVersionUID = 1L;
 			{
 				put("usage", "Usage: /cavedebug create dungeon|portal ");
+				put("Players: %s\nCreatures: %sRooms: %s",
+						"Players: %s\nCreatures: %sRooms: %s");
 			}
 		});
 		/*
@@ -68,6 +70,10 @@ public class TheCave extends JavaPlugin {
 
 	public Dungeon getDungeon(Player p) {
 		return registredDungeons.get(p);
+	}
+
+	public String getLocale(String string) {
+		return language.get(string);
 	}
 
 }

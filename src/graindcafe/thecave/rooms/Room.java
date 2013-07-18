@@ -25,4 +25,6 @@ abstract public class Room implements Runnable {
 
 	abstract public void host(Creature c);
 
+	abstract public void unhost(Creature c);
+
 }

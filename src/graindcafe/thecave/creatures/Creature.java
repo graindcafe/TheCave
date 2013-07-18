@@ -1,5 +1,6 @@
 package graindcafe.thecave.creatures;
 
+import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.rooms.Room;
 
 import java.util.ArrayList;
@@ -11,6 +12,19 @@ import org.bukkit.entity.Entity;
 
 abstract public class Creature {
 	Entity entity;
+	List<Room> livingRooms;
+
+	public Creature(List<Room> rooms) {
+		livingRooms = rooms;
+		for (Room rm : rooms) {
+			rm.host(this);
+		}
+	}
+
+	public void died() {
+		for (Room rm : livingRooms)
+			rm.unhost(this);
+	}
 
 	public Entity getEntity() {
 		return entity;
@@ -23,15 +37,15 @@ abstract public class Creature {
 	abstract protected Class<? extends Entity> getEntityClass();
 
 	public static Creature spawn(Class<? extends Creature> klass,
-			List<Room> hostingRooms, Location loc) {
-		Creature c;
+			List<Room> hostingRooms, Location loc, Dungeon dungeon) {
+		Creature newCreature;
 		try {
-			c = klass.getConstructor().newInstance();
-			c.setEntity(loc.getWorld().spawn(loc, c.getEntityClass()));
-			for (Room rm : hostingRooms) {
-				rm.host(c);
-			}
-			return c;
+			newCreature = klass.getConstructor(List.class).newInstance(
+					hostingRooms);
+			newCreature.setEntity(loc.getWorld().spawn(loc,
+					newCreature.getEntityClass()));
+			dungeon.addCreature(newCreature);
+			return newCreature;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
