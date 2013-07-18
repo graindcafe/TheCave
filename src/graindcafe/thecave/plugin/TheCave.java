@@ -18,8 +18,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class TheCave extends JavaPlugin {
 
-	/** The registred dungeons. */
-	Map<Player, Dungeon> registredDungeons = new HashMap<Player, Dungeon>();
+	/** The registered dungeons. */
+	Map<Player, Dungeon> registeredDungeons = new HashMap<Player, Dungeon>();
 
 	/** The language. */
 	static Language language;
@@ -50,8 +50,7 @@ public class TheCave extends JavaPlugin {
 			private static final long serialVersionUID = 1L;
 			{
 				put("usage", "Usage: /cavedebug create dungeon|portal ");
-				put("Players: %s\nCreatures: %sRooms: %s",
-						"Players: %s\nCreatures: %sRooms: %s");
+				put("Message.Stat", "Players: %s\nCreatures: %s\nRooms: %s");
 			}
 		});
 		/*
@@ -90,6 +89,7 @@ public class TheCave extends JavaPlugin {
 	public void onEnable() {
 		initLanguage();
 		getCommand("cavedebug").setExecutor(new DebugController(this));
+
 		super.onEnable();
 	}
 
@@ -97,23 +97,24 @@ public class TheCave extends JavaPlugin {
 	 * Register dungeon.
 	 * 
 	 * @param p
-	 *            the p
+	 *            the player
 	 * @param dungeon
 	 *            the dungeon
 	 */
 	public void registerDungeon(Player p, Dungeon dungeon) {
-		registredDungeons.put(p, dungeon);
+		registeredDungeons.put(p, dungeon);
+		getServer().getPluginManager().registerEvents(dungeon, this);
 	}
 
 	/**
 	 * Gets the dungeon.
 	 * 
 	 * @param p
-	 *            the p
+	 *            the player
 	 * @return the dungeon
 	 */
 	public Dungeon getDungeon(Player p) {
-		return registredDungeons.get(p);
+		return registeredDungeons.get(p);
 	}
 
 	/**

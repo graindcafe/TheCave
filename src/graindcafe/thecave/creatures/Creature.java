@@ -39,8 +39,9 @@ abstract public class Creature {
 	 * This is a callback when the entity died.
 	 */
 	public void died() {
-		for (Room rm : livingRooms)
+		for (Room rm : livingRooms) {
 			rm.unhost(this);
+		}
 	}
 
 	/**

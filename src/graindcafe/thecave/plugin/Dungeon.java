@@ -21,7 +21,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Dungeon.
  */
@@ -36,7 +35,7 @@ public class Dungeon implements Listener {
 	/** The creatures. */
 	Map<Class<? extends Creature>, List<Creature>> creatures = new HashMap<Class<? extends Creature>, List<Creature>>();
 
-	/** The bukkit association. */
+	/** Association with Bukkit's entities. */
 	Map<Entity, Creature> bukkitAssociation = new HashMap<Entity, Creature>();
 	/*
 	 * The keys are the set of available rooms
@@ -105,7 +104,7 @@ public class Dungeon implements Listener {
 	 * Register creature.
 	 * 
 	 * @param c
-	 *            the c
+	 *            the creature
 	 */
 	public void registerCreature(Class<? extends Creature> c) {
 		creatures.put(c, new LinkedList<Creature>());
@@ -114,18 +113,18 @@ public class Dungeon implements Listener {
 	/**
 	 * Register room.
 	 * 
-	 * @param c
-	 *            the c
+	 * @param r
+	 *            the room
 	 */
-	public void registerRoom(Class<? extends Room> c) {
-		rooms.put(c, new LinkedList<Room>());
+	public void registerRoom(Class<? extends Room> r) {
+		rooms.put(r, new LinkedList<Room>());
 	}
 
 	/**
 	 * Adds the player.
 	 * 
 	 * @param p
-	 *            the p
+	 *            the player
 	 */
 	public void addPlayer(Player p) {
 		registeredPlayers.add(p);
@@ -174,7 +173,7 @@ public class Dungeon implements Listener {
 	}
 
 	/**
-	 * Number of.
+	 * Number of creature in the dungeon
 	 * 
 	 * @param creature
 	 *            the creature
@@ -220,8 +219,10 @@ public class Dungeon implements Listener {
 	@EventHandler
 	public void onEntityDeath(final EntityDeathEvent event) {
 		Creature c = bukkitAssociation.get(event.getEntity());
-		if (c != null)
+		if (c != null) {
+			creatures.get(c.getClass()).remove(c);
 			c.died();
+		}
 	}
 
 	/**
@@ -233,16 +234,18 @@ public class Dungeon implements Listener {
 		String plist = "";
 		String clist = "";
 		String rlist = "";
+
 		for (Player p : registeredPlayers)
 			plist += p.getName() + ", ";
-		plist = plist.substring(0, plist.length() - 1);
+		plist = plist.substring(0, plist.length() - 2);
 		for (Entry<Class<? extends Creature>, List<Creature>> e : creatures
 				.entrySet())
-			clist += e.getKey().getName() + ": " + e.getValue().size() + "\n";
+			clist += "\n  " + e.getKey().getSimpleName() + ": "
+					+ e.getValue().size();
 		for (Entry<Class<? extends Room>, List<Room>> e : rooms.entrySet())
-			clist += e.getKey().getName() + ": " + e.getValue().size() + "\n";
-		return String.format(
-				plugin.getLocale("Players: %s\nCreatures: %sRooms: %s"), plist,
-				clist, rlist);
+			rlist += "\n  " + e.getKey().getSimpleName() + ": "
+					+ e.getValue().size();
+		return String.format(plugin.getLocale("Message.Stat"), plist, clist,
+				rlist);
 	}
 }
