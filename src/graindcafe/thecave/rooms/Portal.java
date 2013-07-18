@@ -1,6 +1,7 @@
 package graindcafe.thecave.rooms;
 
 import graindcafe.thecave.creatures.Creature;
+import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
 
 import java.util.ArrayList;
@@ -10,16 +11,20 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Portal extends Room {
 	Integer livingSoul;
 	final static int maxLivingSoul = 10;
-	TheCave plugin;
 
-	public Portal(TheCave plugin, Location loc) {
-		this.loc = loc;
-		this.plugin = plugin;
-		Bukkit.getScheduler().scheduleAsyncRepeatingTask(plugin, this, 100,
+	public Portal(TheCave plugin, Player p) {
+		this(plugin, plugin.getDungeon(p), p.getLocation());
+	}
+
+	public Portal(TheCave plugin, Dungeon dungeon, Location loc) {
+		super(plugin, dungeon, loc);
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 100,
 				10000);
 	}
 

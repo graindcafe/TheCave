@@ -38,7 +38,7 @@ public class DebugController implements CommandExecutor {
 			} else if (args[1].equalsIgnoreCase("portal")
 					&& sender instanceof Player)
 				plugin.getDungeon((Player) sender).addRoom(
-						new Portal(plugin, ((Player) sender).getLocation()));
+						new Portal(plugin, ((Player) sender)));
 
 		return false;
 	}
