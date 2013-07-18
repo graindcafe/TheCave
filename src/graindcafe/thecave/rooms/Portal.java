@@ -71,7 +71,9 @@ public class Portal extends Room {
 			}
 		}
 		it2 = possibles.entrySet().iterator();
-		for (int i = dungeon.getRandom().nextInt(possibles.size() + 1); i > 0; i--)
+		if (possibles.isEmpty())
+			return;
+		for (int i = dungeon.getRandom().nextInt(possibles.size()); i > 0; i--)
 			it2.next();
 		Entry<Class<? extends Creature>, List<Room>> chosen = it2.next();
 		Creature.spawn(chosen.getKey(), chosen.getValue(), loc, dungeon);
