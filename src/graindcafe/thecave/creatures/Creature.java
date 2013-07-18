@@ -4,6 +4,7 @@ import graindcafe.thecave.rooms.Room;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -21,11 +22,15 @@ abstract public class Creature {
 
 	abstract protected Class<? extends Entity> getEntityClass();
 
-	public static Creature spawn(Class<? extends Creature> klass, Location loc) {
+	public static Creature spawn(Class<? extends Creature> klass,
+			List<Room> hostingRooms, Location loc) {
 		Creature c;
 		try {
 			c = klass.getConstructor().newInstance();
 			c.setEntity(loc.getWorld().spawn(loc, c.getEntityClass()));
+			for (Room rm : hostingRooms) {
+				rm.host(c);
+			}
 			return c;
 		} catch (Exception e) {
 			e.printStackTrace();

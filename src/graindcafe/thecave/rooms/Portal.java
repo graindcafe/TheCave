@@ -4,17 +4,20 @@ import graindcafe.thecave.creatures.Creature;
 import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class Portal extends Room {
-	Integer livingSoul;
+	Integer livingSoul = 0;
 	final static int maxLivingSoul = 10;
 
 	public Portal(TheCave plugin, Player p) {
@@ -29,45 +32,61 @@ public class Portal extends Room {
 	}
 
 	public void run() {
-		List<Class<? extends Creature>> possibles = new ArrayList<Class<? extends Creature>>();
+		Map<Class<? extends Creature>, List<Room>> possibles = new HashMap<Class<? extends Creature>, List<Room>>();
 
-		possibles.addAll(dungeon.getPossibleCreatures());
-		Iterator<Class<? extends Creature>> it = possibles.iterator();
+		for (Class<? extends Creature> race : dungeon.getPossibleCreatures())
+			possibles.put(race, new LinkedList<Room>());
+
+		if (possibles.isEmpty())
+			return;
+		Iterator<Class<? extends Creature>> it = possibles.keySet().iterator();
 		while (it.hasNext()) {
 			Class<? extends Creature> c = it.next();
-			for (Class<? extends Room> r : Creature.getRequieredRooms(c))
-				if (!dungeon.hasRoom(r)) {
-					it.remove();
-					break;
-				}
+			Collection<Class<? extends Room>> rRooms = Creature
+					.getRequieredRooms(c);
+			if (rRooms != null)
+				for (Class<? extends Room> r : rRooms)
+					if (!dungeon.hasRoom(r)) {
+						it.remove();
+						break;
+					}
 		}
-		it = possibles.iterator();
-		while (it.hasNext()) {
-			Class<? extends Creature> c = it.next();
-
+		Iterator<Entry<Class<? extends Creature>, List<Room>>> it2 = possibles
+				.entrySet().iterator();
+		while (it2.hasNext()) {
+			Entry<Class<? extends Creature>, List<Room>> e = it2.next();
+			Class<? extends Creature> c = e.getKey();
+			List<Room> satisfyingRooms = e.getValue();
 			for (Collection<Room> rooms : dungeon.getRooms()) {
-				boolean satisfyAny = false;
+				Room satisfying = null;
 				for (Room rm : rooms) {
 					if (rm.canHost(c)) {
-						satisfyAny = true;
+						satisfying = rm;
+						break;
 					}
 				}
-				if (!satisfyAny)
-					it.remove();
+
+				if (satisfying == null)
+					it2.remove();
+				else
+					satisfyingRooms.add(satisfying);
 			}
 		}
-		Creature.spawn(
-				possibles.get(dungeon.getRandom().nextInt(possibles.size())),
-				loc);
+		it2 = possibles.entrySet().iterator();
+		for (int i = dungeon.getRandom().nextInt(possibles.size()); i > 0; i--)
+			it2.next();
+		Entry<Class<? extends Creature>, List<Room>> chosen = it2.next();
+		Creature.spawn(chosen.getKey(), chosen.getValue(), loc);
 	}
 
 	@Override
 	public boolean canHost(Class<? extends Creature> c) {
 		return livingSoul < maxLivingSoul;
 	}
-	/*
-	 * public Collection<Constraint> getMaxConstraints() { List<Constraint> list
-	 * = new LinkedList<Constraint>(); list.add(new Constraint(Creature.class,
-	 * 10)); return list; }
-	 */
+
+	@Override
+	public void host(Creature c) {
+		livingSoul++;
+	}
+
 }

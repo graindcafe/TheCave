@@ -1,6 +1,7 @@
 package graindcafe.thecave.plugin;
 
 import graindcafe.thecave.creatures.Creature;
+import graindcafe.thecave.creatures.Zombie;
 import graindcafe.thecave.rooms.Portal;
 import graindcafe.thecave.rooms.Room;
 
@@ -34,6 +35,7 @@ public class Dungeon {
 		 */
 		registerRoom(Portal.class);
 		// registerRoom(Den.class);
+		registerCreature(Zombie.class);
 	}
 
 	public Dungeon(TheCave plugin, Player owner) {

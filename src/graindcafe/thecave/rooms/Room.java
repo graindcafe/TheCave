@@ -23,4 +23,6 @@ abstract public class Room implements Runnable {
 
 	abstract public boolean canHost(Class<? extends Creature> c);
 
+	abstract public void host(Creature c);
+
 }
