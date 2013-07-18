@@ -4,7 +4,9 @@ import graindcafe.thecave.creatures.Creature;
 import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Location;
 
@@ -20,8 +22,8 @@ abstract public class Room implements Runnable {
 	/** The dungeon. */
 	protected Dungeon dungeon;
 
-	/** The loc. */
-	protected Location loc;
+	/** The blocks. */
+	protected Set<Location> blocks;
 
 	/**
 	 * Instantiates a new room.
@@ -36,7 +38,9 @@ abstract public class Room implements Runnable {
 	protected Room(TheCave plugin, Dungeon dungeon, Location location) {
 		this.plugin = plugin;
 		this.dungeon = dungeon;
-		this.loc = location;
+		this.blocks = new HashSet<Location>();
+		this.blocks.add(location);
+		this.decorate();
 	}
 
 	/** The owned creatures. */
@@ -67,4 +71,8 @@ abstract public class Room implements Runnable {
 	 */
 	abstract public void unhost(Creature c);
 
+	/**
+	 * Decorate.
+	 */
+	abstract protected void decorate();
 }

@@ -14,6 +14,8 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 // TODO: Auto-generated Javadoc
@@ -107,7 +109,8 @@ public class Portal extends Room {
 		for (int i = dungeon.getRandom().nextInt(possibles.size()); i > 0; i--)
 			it2.next();
 		Entry<Class<? extends Creature>, List<Room>> chosen = it2.next();
-		Creature.spawn(chosen.getKey(), chosen.getValue(), loc, dungeon);
+		Creature.spawn(chosen.getKey(), chosen.getValue(), blocks.iterator()
+				.next(), dungeon);
 		// do not increase livingSoul here as it would be done with the
 		// host(Creature) callback
 	}
@@ -143,6 +146,14 @@ public class Portal extends Room {
 	@Override
 	public void unhost(Creature c) {
 		livingSoul--;
+	}
+
+	@Override
+	protected void decorate() {
+		for (Location loc : blocks) {
+			loc.getBlock().getRelative(BlockFace.DOWN)
+					.setType(Material.OBSIDIAN);
+		}
 	}
 
 }
