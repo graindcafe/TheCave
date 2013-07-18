@@ -17,7 +17,12 @@ public class DebugController implements CommandExecutor {
 	}
 
 	public boolean usage(CommandSender sender) {
-		TheCave.message(sender, "usage");
+		// Display a specific usage for op
+		if (sender.isOp()) {
+			TheCave.message(sender, "usage");
+			return true;
+		}
+		// Return usage wrote in "plugin.yml"
 		return false;
 	}
 
@@ -29,16 +34,20 @@ public class DebugController implements CommandExecutor {
 
 		if (args[0].equalsIgnoreCase("create") && args.length > 1)
 			if (args[1].equalsIgnoreCase("dungeon")) {
-				if (sender instanceof Player)
+				if (sender instanceof Player) {
 					new Dungeon(plugin, (Player) sender);
-				else if (args.length > 2)
+					return true;
+				} else if (args.length > 2) {
 					new Dungeon(plugin, args[2]);
-				else
+					return true;
+				} else
 					return usage(sender);
 			} else if (args[1].equalsIgnoreCase("portal")
-					&& sender instanceof Player)
+					&& sender instanceof Player) {
 				plugin.getDungeon((Player) sender).addRoom(
 						new Portal(plugin, ((Player) sender)));
+				return true;
+			}
 
 		return false;
 	}

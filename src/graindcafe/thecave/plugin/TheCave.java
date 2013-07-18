@@ -30,7 +30,7 @@ public class TheCave extends JavaPlugin {
 		DefaultLanguage.setLocales(new HashMap<String, String>() {
 			private static final long serialVersionUID = 1L;
 			{
-				put("usage", "Usage: ");
+				put("usage", "Usage: /cavedebug create dungeon|portal ");
 			}
 		});
 		/*
@@ -58,7 +58,7 @@ public class TheCave extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		initLanguage();
-		getCommand("debug").setExecutor(new DebugController(this));
+		getCommand("cavedebug").setExecutor(new DebugController(this));
 		super.onEnable();
 	}
 

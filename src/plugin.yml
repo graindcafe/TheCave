@@ -2,6 +2,6 @@ name: TheCave
 main: graindcafe.thecave.plugin.TheCave
 version: 0.1
 commands:
-    debug:
+    cavedebug:
         description: create (dungeon|portal) 
-        usage: /debug create dungeon
+        usage: /cavedebug
