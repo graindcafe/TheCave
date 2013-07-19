@@ -5,6 +5,7 @@ import graindcafe.thecave.creatures.Zombie;
 import graindcafe.thecave.rooms.Portal;
 import graindcafe.thecave.rooms.Room;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,7 +25,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 /**
  * The Class Dungeon.
  */
-public class Dungeon implements Listener {
+public class Dungeon implements Listener, Serializable {
+
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The registered players. */
 	List<Player> registeredPlayers = new LinkedList<Player>();
@@ -177,7 +183,7 @@ public class Dungeon implements Listener {
 	 * 
 	 * @param creature
 	 *            the creature
-	 * @return the int
+	 * @return the number of this creature
 	 */
 	public int numberOf(Class<? extends Creature> creature) {
 		return creatures.get(creature).size();

@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.bukkit.entity.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Spider.
  */
 public class Spider extends Creature {
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Instantiates a new spider.

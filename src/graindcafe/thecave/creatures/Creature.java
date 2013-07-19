@@ -3,24 +3,38 @@ package graindcafe.thecave.creatures;
 import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.rooms.Room;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.bukkit.EntityEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Creature.
  */
-abstract public class Creature {
+abstract public class Creature implements Serializable {
+
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The entity. */
 	Entity entity;
 
 	/** The living rooms. */
 	List<Room> livingRooms;
+	/** when it goes to 0 the creature need to eat something */
+	int satiety;
+	/** when it goes to 0 the creature need to drink something */
+	int antithirst;
+	/** when it goes to 0 the creature need to have some rest */
+	int vigor;
+
+	int level;
 
 	/**
 	 * Instantiates a new creature.
@@ -92,6 +106,7 @@ abstract public class Creature {
 			newCreature.setEntity(loc.getWorld().spawn(loc,
 					newCreature.getEntityClass()));
 			dungeon.addCreature(newCreature);
+			newCreature.getEntity().playEffect(EntityEffect.HURT);
 			return newCreature;
 		} catch (Exception e) {
 			e.printStackTrace();

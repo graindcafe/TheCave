@@ -18,11 +18,15 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Portal.
  */
 public class Portal extends Room {
+
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The living soul. */
 	Integer livingSoul = 0;

@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.bukkit.entity.Entity;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Skeleton.
  */
 public class Skeleton extends Creature {
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Instantiates a new skeleton.

@@ -4,17 +4,22 @@ import graindcafe.thecave.creatures.Creature;
 import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.Location;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Room.
  */
-abstract public class Room implements Runnable {
+abstract public class Room implements Runnable, Serializable {
+
+	/**
+	 * Version 1
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** The plugin. */
 	protected TheCave plugin;
