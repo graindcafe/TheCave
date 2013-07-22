@@ -51,7 +51,7 @@
 				<executions>
 					<execution>
 						<id>unpack-dependencies</id>
-						<phase>package</phase>
+						<phase>pre-package</phase>
 						<goals>
 							<goal>unpack-dependencies</goal>
 						</goals>
