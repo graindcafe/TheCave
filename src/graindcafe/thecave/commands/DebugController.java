@@ -6,6 +6,7 @@ import graindcafe.thecave.rooms.Portal;
 
 import java.util.List;
 
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -73,8 +74,11 @@ public class DebugController implements CommandExecutor {
 					return usage(sender);
 			} else if (args[1].equalsIgnoreCase("portal")
 					&& sender instanceof Player) {
+				Player p = (Player) sender;
 				plugin.getDungeon((Player) sender).addRoom(
 						new Portal(plugin, ((Player) sender)));
+				p.teleport(p.getLocation().getBlock()
+						.getRelative(BlockFace.NORTH, 3).getLocation());
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("kill") && args.length > 1) {
@@ -83,7 +87,8 @@ public class DebugController implements CommandExecutor {
 				all.removeAll(plugin.getDungeon(((Player) sender))
 						.getManagedEntities());
 				for (Entity e : all)
-					e.remove();
+					if (!(e instanceof Player))
+						e.remove();
 				return true;
 			} else if (args[1].equalsIgnoreCase("dungeon")) {
 				for (Entity e : plugin.getDungeon(((Player) sender))
@@ -92,7 +97,8 @@ public class DebugController implements CommandExecutor {
 				return true;
 			} else if (args[1].equalsIgnoreCase("all")) {
 				for (Entity e : ((Player) sender).getWorld().getEntities())
-					e.remove();
+					if (!(e instanceof Player))
+						e.remove();
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("dungeon") && args.length > 1) {
