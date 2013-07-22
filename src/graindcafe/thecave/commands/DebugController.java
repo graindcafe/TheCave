@@ -75,8 +75,13 @@ public class DebugController implements CommandExecutor {
 			} else if (args[1].equalsIgnoreCase("portal")
 					&& sender instanceof Player) {
 				Player p = (Player) sender;
-				plugin.getDungeon((Player) sender).addRoom(
-						new Portal(plugin, ((Player) sender)));
+				Dungeon d = plugin.getDungeon(p);
+				if (d == null) {
+					new Portal(plugin, p);
+					p.sendMessage("The portal was not added to any dungeon as you don't have any.");
+				} else {
+					d.addRoom(new Portal(plugin, p));
+				}
 				p.teleport(p.getLocation().getBlock()
 						.getRelative(BlockFace.NORTH, 3).getLocation());
 				return true;
