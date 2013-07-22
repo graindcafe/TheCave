@@ -2,6 +2,7 @@ package graindcafe.thecave.commands;
 
 import graindcafe.thecave.plugin.Dungeon;
 import graindcafe.thecave.plugin.TheCave;
+import graindcafe.thecave.rooms.Nexus;
 import graindcafe.thecave.rooms.Portal;
 
 import java.util.List;
@@ -84,6 +85,19 @@ public class DebugController implements CommandExecutor {
 				}
 				p.teleport(p.getLocation().getBlock()
 						.getRelative(BlockFace.NORTH, 3).getLocation());
+				return true;
+			} else if (args[1].equalsIgnoreCase("nexus")
+					&& sender instanceof Player) {
+				Player p = (Player) sender;
+				Dungeon d = plugin.getDungeon(p);
+				if (d == null) {
+					new Nexus(plugin, p);
+					p.sendMessage("The nexus was not added to any dungeon as you don't have any.");
+				} else {
+					d.addRoom(new Nexus(plugin, p));
+				}
+				p.teleport(p.getLocation().getBlock()
+						.getRelative(BlockFace.NORTH, 4).getLocation());
 				return true;
 			}
 		} else if (args[0].equalsIgnoreCase("kill") && args.length > 1) {

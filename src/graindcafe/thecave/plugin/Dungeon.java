@@ -2,6 +2,7 @@ package graindcafe.thecave.plugin;
 
 import graindcafe.thecave.creatures.Creature;
 import graindcafe.thecave.creatures.Zombie;
+import graindcafe.thecave.rooms.Nexus;
 import graindcafe.thecave.rooms.Portal;
 import graindcafe.thecave.rooms.Room;
 
@@ -67,6 +68,7 @@ public class Dungeon implements Listener, Serializable {
 		 * Room available by default
 		 */
 		registerRoom(Portal.class);
+		registerRoom(Nexus.class);
 		// registerRoom(Den.class);
 		registerCreature(Zombie.class);
 	}
