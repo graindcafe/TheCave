@@ -43,6 +43,15 @@
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/</directory>
+				<includes>
+					<include>plugin.yml</include>
+				</includes>
+				<targetPath>.</targetPath>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -51,14 +60,14 @@
 				<executions>
 					<execution>
 						<id>unpack-dependencies</id>
-						<phase>pre-package</phase>
+						<phase>prepare-package</phase>
 						<goals>
 							<goal>unpack-dependencies</goal>
 						</goals>
 						<configuration>
 							<includeArtifactIds>GLS</includeArtifactIds>
-							<includes>**/*.class</includes>
-							<excludes>**/*.properties</excludes>
+							<includes>me/graindcafe/*/**.class</includes>
+							<excludes>**/*.properties,**/plugin.yml</excludes>
 							<outputDirectory>${project.build.directory}/classes/</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
@@ -66,39 +75,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.3</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/src</directory>
-									<filtering>true</filtering>
-									<includes>
-										<include>plugin.yml</include>
-									</includes>
-								</resource>
-								<resource>
-									<directory>${basedir}</directory>
-									<filtering>true</filtering>
-									<includes>
-										<include>res/languages/*.yml</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
