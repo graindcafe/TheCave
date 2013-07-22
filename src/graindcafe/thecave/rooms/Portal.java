@@ -56,8 +56,9 @@ public class Portal extends Room {
 	 * @param loc
 	 *            the loc
 	 */
-	public Portal(TheCave plugin, Dungeon dungeon, Location loc) {
-		super(plugin, dungeon, loc);
+	public Portal(TheCave plugin, Dungeon dungeon, Location location) {
+		super(plugin, dungeon, location);
+
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, this, 100, 200);
 	}
 
@@ -113,8 +114,10 @@ public class Portal extends Room {
 		for (int i = dungeon.getRandom().nextInt(possibles.size()); i > 0; i--)
 			it2.next();
 		Entry<Class<? extends Creature>, List<Room>> chosen = it2.next();
-		Creature.spawn(chosen.getKey(), chosen.getValue(), blocks.iterator()
-				.next(), dungeon);
+		Creature.spawn(chosen.getKey(), chosen.getValue(),
+				blocks.iterator().next().getBlock()
+						.getRelative(BlockFace.NORTH).getRelative(BlockFace.UP)
+						.getLocation(), dungeon);
 		// do not increase livingSoul here as it would be done with the
 		// host(Creature) callback
 	}
@@ -154,10 +157,13 @@ public class Portal extends Room {
 
 	@Override
 	protected void decorate() {
-		for (Location loc : blocks) {
-			loc.getBlock().getRelative(BlockFace.DOWN)
-					.setType(Material.OBSIDIAN);
-		}
+		Location location = blocks.iterator().next();
+		// Border
+		SquareDecorator.border(location, Material.OBSIDIAN, 2, true);
+		// Gap
+		SquareDecorator.dig(location, 2, 3, Material.AIR, Material.OBSIDIAN);
+		// Bridge
+		location.getBlock().getRelative(BlockFace.NORTH, 1)
+				.setType(Material.OBSIDIAN);
 	}
-
 }
