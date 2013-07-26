@@ -44,10 +44,13 @@ public class Nexus extends Room {
 	protected void decorate() {
 		Location loc = blocks.iterator().next();
 		SquareDecorator.border(loc, Material.NETHER_BRICK, 3, false);
+		SquareDecorator.border(loc, Material.NETHER_BRICK, 2, true);
 		SquareDecorator.border(loc.getBlock().getRelative(BlockFace.UP, 1)
 				.getLocation(), Material.NETHER_BRICK, 2, false);
-		SquareDecorator.border(loc.getBlock().getRelative(BlockFace.UP, 2)
+		SquareDecorator.border(loc.getBlock().getRelative(BlockFace.UP, 1)
 				.getLocation(), Material.NETHER_BRICK, 1, true);
+		SquareDecorator.border(loc.getBlock().getRelative(BlockFace.UP, 2)
+				.getLocation(), Material.NETHER_BRICK, 1, false);
 		loc.getBlock().getRelative(BlockFace.WEST, 3)
 				.setType(Material.NETHER_BRICK_STAIRS);
 		loc.getBlock().getRelative(BlockFace.UP).getRelative(BlockFace.WEST, 2)

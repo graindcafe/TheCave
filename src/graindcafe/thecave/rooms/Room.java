@@ -97,7 +97,7 @@ abstract public class Room implements Runnable, Serializable {
 			int z = center.getBlockZ();
 			int limit = doCorner ? distance + 1 : distance;
 
-			for (int i = -distance; i < limit; i++) {
+			for (int i = -distance + (doCorner ? 0 : 1); i < limit; i++) {
 				w.getBlockAt(x + distance, y, z + i).setType(mat);
 				w.getBlockAt(x + i, y, z + distance).setType(mat);
 				w.getBlockAt(x - distance, y, z + i).setType(mat);
